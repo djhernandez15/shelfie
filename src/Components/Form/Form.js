@@ -1,16 +1,33 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export class Form extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      imageURL: "",
-      productName: "",
+      image_url: "",
+      product_name: "",
       price: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.resetFields = this.resetFields.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .post("/api/products")
+      .then(response => {
+        console.log(response);
+        this.setState({
+          image_url: response.data,
+          product_name: response.data,
+          price: response.data
+        }).then(this.resetFields(), this.props.getInventory());
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   handleChange(e) {
@@ -24,10 +41,11 @@ export class Form extends Component {
   resetFields() {
     this.setState({ imageURL: "", productName: "", price: "" });
   }
+  
   render() {
     return (
       <form>
-        <img alt="image" />
+        <img alt="product" />
         <label>
           Image URL:
           <input type="url" />

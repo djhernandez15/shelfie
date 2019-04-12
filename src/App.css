@@ -37,6 +37,9 @@ img {
 .product{
   border: solid 1px red;
   height: 30vh;
+  display: flex;
+  text-overflow: hidden;
+
 }
 
 main {

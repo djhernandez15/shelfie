@@ -14,13 +14,23 @@ class App extends Component {
         { product_id: "", product_name: "", price: "", image_url: "" }
       ]
     };
+    this.getInventory = this.getInventory.bind(this);
   }
 
   componentDidMount() {
-    axios.get("/api/inventory").then(response => {
-      console.log(response);
-      this.setState({ inventoryList: response.data });
-    });
+    this.getInventory();
+  }
+
+  getInventory() {
+    axios
+      .get("/api/inventory")
+      .then(response => {
+        console.log(response);
+        this.setState({ inventoryList: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
   render() {
     return (
@@ -34,8 +44,10 @@ class App extends Component {
             product_name={this.state.inventoryList.product_name}
             price={this.state.inventoryList.price}
             image_url={this.state.inventoryList.image_url}
+            product_id={this.state.inventoryList.product_id}
+            getInventory={this.getInventory}
           />
-          <Form />
+          <Form getInventory={this.getInventory} />
         </main>
       </div>
     );
